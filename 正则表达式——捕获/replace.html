@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>string.replace()</title>
+</head>
+<body>
+	<p id='str'>苹果的价格是8,西瓜的价格是10</p>
+	<a href='#'>替换</a>
+	<script type="text/javascript">
+	var str = document.getElementById('str');
+	var strText = str.innerText;
+	var a = document.getElementsByTagName('a')[0];
+	a.onclick = function(event){
+		event.preventDefault();
+		//()表示捕获,$1表示捕获到的第一个值,在这里如果不加（），则8会被替换成$1.00元
+		var newStr = strText.replace(/(\d+)/,"$1.00元");
+		str.innerText = newStr;
+	};
+	var url = "http://baidu.com/xiwang/jj.html?a=b#dd";
+	var reg = /^(https?:)\/\/(\w+.com)(\/[^\?]*)?(\?[^#]*)?(#.*)?/;
+	var arr = url.match(reg);
+	//alert(arr[5]);
+	</script>
+</body>
+</html>

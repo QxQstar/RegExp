@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式验证邮箱和手机号码</title>
+	<style type="text/css">
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	form{
+		position: relative;
+		top:50%;
+		left: 50%;
+		width: 300px;
+		border: 1px solid #F1F1F1;
+		-moz-transform: translate(-50%,50%);
+		box-shadow: 0 0 8px #D5EFEC;
+		padding: 10px 0 30px;
+		border-radius: 5px;
+	}
+	div{
+		height: 30px;
+		line-height: 30px;
+		margin-top: 20px;
+		margin-left: 20px;
+	}
+	div *{
+		font-size: 14px;
+		color: #333;
+		height: 30px;
+		line-height: 30px;
+	}
+	div input{
+		padding-left: 5px;
+		width: 180px;
+	}
+	input.error{
+		color: #EEA6A6;
+		border-color: #EEA6A6;
+	}
+	.normal{
+		color: #333;
+		border:solid 1px #888;
+		border-radius: 5px;
+	}
+	input.right{
+		color: #9DD89A;
+		border-color: #9DD89A;
+	}
+	</style>
+</head>
+<body>
+	<form id='form'>
+		<div>
+			<label for='email'>电子邮箱：</label>
+			<input type='text' id='email' class='normal'>
+		</div>
+		<div>
+			<label for='tel'>手机号码：</label>
+			<input type='text' id='tel' class='normal'>
+		</div>
+	</form>
+	<script type="text/javascript">
+	var until = {
+		addEvent:function(element,type,hanlder){
+			if(element.addEventListener){
+				element.addEventListener(type,hanlder,false);
+			}else if(element.attachEvent){
+				element.attachEvent('on'+type,hanlder);
+			}else{
+				element['on'+type] = hanlder;
+			}
+		},
+		removeEvent:function(element,type,hanlder){
+			if(element.removeEventListener){
+				element.addEventListener(type,hanlder,false);
+			}else if(element.detachEvent){
+				element.detachEvent('on'+type,hanlder);
+			}else{
+				element['on'+type] = null ;
+			}
+		},
+		getEvent:function(event){
+			return event?event:window.event;
+		},
+		getTarget:function(event){
+			return event.target||event.srcElement;
+		}
+	};
+	function addLoadEvent(func){
+		var oldEvent = window.onload;
+		if(typeof oldEvent != "function"){
+			window.onload = func;
+		}else{
+			window.onload = function(){
+				oldEvent();
+				func();
+			}
+		}
+	}
+	function callBackFocus(event){
+		var event = until.getEvent(event);
+		var target = until.getTarget(event);
+		target.className = "normal";
+	}
+	function callBackBlur(event){
+		var event = until.getEvent(event);
+		var target = until.getTarget(event);
+		var inputValue = target.value;
+		if(inputValue.length > 0){
+			if(target.id.toLowerCase() == 'tel'){
+				if(!/^1[3458]\d{9}$/.test(inputValue)){
+					target.className += " error";
+				}else{
+					target.className +=" right";
+				}
+			}
+			if(target.id.toLowerCase() == 'email'){
+				if(!/^\w+@[a-z0-9]+\.com$/.test(inputValue)){
+					target.className+=" error";
+				}else{
+					target.className +=" right";
+				}
+			}
+		}
+	}
+	function start(){
+		var tel = document.getElementById('tel');
+		var email = document.getElementById('email');
+		until.addEvent(tel,'focus',callBackFocus);
+		until.addEvent(tel,'blur',callBackBlur);
+		until.addEvent(email,'focus',callBackFocus);
+		until.addEvent(email,'blur',callBackBlur);
+	}
+	addLoadEvent(start);
+	</script>
+</body>
+</html>
