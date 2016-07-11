@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>检查长度</title>
+	<style type="text/css">
+	#text{
+		width: 400px;
+		height: 100px;
+	}
+	</style>
+</head>
+<body>
+	<form name='form'>
+		<textarea id='text'></textarea>
+		<br>
+		<span class='info' id = 'info'></span>
+	</form>
+	<script type="text/javascript">
+	window.onload = function(){
+		var infoShow = 0,curArr = [],i,tarLen,checkValue,totalNum = 100;
+		var text = document.getElementById('text');
+		var info = document.getElementById('info');
+		for(i = 0;i<text.value.length;i++){
+			checkValue = text.value.slice(i,i+1);
+			if(/[\u4e00-\u9fa5]/.test(checkValue)){
+				infoShow +=2;
+			}else{
+				infoShow +=1;
+			}
+			curArr.push(checkValue);
+		}
+		info.innerHTML = "还能输入"+(totalNum-infoShow)+"个字符";
+		if(totalNum-infoShow < 0){
+				info.style.color = 'red';
+			}
+		text.onkeyup = function(event){
+			var event = event||window.event;
+			var target = event.target||event.srcElement;
+			var chaju = target.value.length - curArr.length;
+			if(chaju > 0){
+				for(i = curArr.length,tarLen = target.value.length;i<tarLen;i++){
+					checkValue = target.value.slice(i,i+1);
+					if(/[\u4e00-\u9fa5]/.test(checkValue)){
+						infoShow +=2; 
+					}else{
+						infoShow +=1;
+					}
+					curArr.push(checkValue);
+				}
+			}
+			if(chaju < 0){
+				for(i = target.value.length,tarLen = curArr.length;i<tarLen;i++){
+					checkValue = curArr.pop();
+					if(/[\u4e00-\u9fa5]/.test(checkValue)){
+						infoShow -=2; 
+					}else{
+						infoShow -=1;
+					}
+				}
+			}
+			info.innerHTML = "还能输入"+(totalNum-infoShow)+"个字符";
+			if(totalNum-infoShow < 0){
+				info.style.color = 'red';
+			}else{
+				info.style.color = '#000';
+			}
+		};
+		
+	};
+	</script>
+</body>
+</html>
