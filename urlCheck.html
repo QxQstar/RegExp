@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式</title>
+	<style type="text/css">
+	*{
+		padding:0;
+		margin:0;
+		box-sizing:border-box;
+		-moz-box-sizing:border-box;
+		-webkit-box-sizing:border-box;
+	}
+	.myform{
+		width: 400px;
+		border-radius: 5px;
+		border: 1px solid #C4C3C3;
+		padding: 20px;
+		margin:40px auto 0;
+		box-shadow: 0px 2px 5px #C4C3C3; 
+	}
+	label{
+		font-size: 16px;
+		color: #333;
+	}
+	.text{
+		width: 250px;
+		height: 30px;
+		padding: 5px 10px;
+	}
+	.text:focus{
+		border:inset 1px #68B4DE;
+	}
+	.sure{
+		width: 70px;
+		height: 30px;
+		background-color: #68B4DE;
+		float: right;
+		margin-right: 40px;
+		margin-top: 20px;
+		border: none;
+		color: #fff;
+	}
+	.sure:hover{
+		background-color: #55A0C5;
+	}
+	span{
+		display: block;
+		clear: both;
+	}
+	</style>
+</head>
+<body>
+	<form name='myform' class='myform'>
+		<div>
+			<label for='myURL'>输入URL:</label>
+			<input type='text' id='myURL' class='text'>
+		</div>
+		<div>
+			<input type='button' id='sure' value='确定' class='sure'>
+		</div>
+		<span></span>
+	</form>
+	<script type="text/javascript">
+	window.onload = function(){
+		var urlobj = {};
+		var myURL = document.getElementById('myURL');
+		myURL.onblur = function(){
+			var urlvalue = myURL.value;
+			urlvalue = urlvalue.replace(/\s*/g,"");
+			var reg = /^(http:\/\/|https:\/\/)?([a-zA-Z]+\.[\w]+\.[a-zA-Z]+)(?:\/([^\?]*))?(?:\?([^#]*))?(#.*)?/;
+			if(reg.test(urlvalue)){
+				var arr = urlvalue.match(reg);
+				if(arr[1]){
+					urlobj.proto = arr[1].split('://')[0];
+				}else{
+				urlobj.protocol = arr[1];
+				}
+				urlobj.host = arr[2];
+				urlobj.pathname = arr[3];
+				urlobj.search = arr[4];
+				urlobj.hash = arr[5];
+				console.log(urlobj);
+			}else{
+				myURL.style.background = 'red';
+			}
+		};
+	};
+	</script>
+</body>
+</html>
