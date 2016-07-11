@@ -17,10 +17,10 @@
 		var newStr = strText.replace(/(\d+)/,"$1.00元");
 		str.innerText = newStr;
 	};
-	var url = "http://baidu.com/xiwang/jj.html?a=b#dd";
-	var reg = /^(https?:)\/\/(\w+.com)(\/[^\?]*)?(\?[^#]*)?(#.*)?/;
+	var url = "baidu.com/xiwang/jj.html?a=b#dd";
+	var reg = /^(https?:\/\/)?(\w+.com)(\/[^\?]*)?(\?[^#]*)?(#.*)?/;
 	var arr = url.match(reg);
-	//alert(arr[5]);
+	alert(arr[2]);
 	</script>
 </body>
 </html>
